@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f1f5f1;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+.main {
+    width: 100%;
+}
+
+.box {
+    background-color: white;
+    width: 20rem;
+    overflow: auto;
+    border-radius: 6px;
+    margin: auto;
+    margin-top: 2rem;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
+}
+
+.head {
+    width: 100%;
+}
+
+.head img {
+    width: 5rem;
+    display: block;
+    margin: 2rem auto;
+}
+
+.box form input {
+    width: 90%;
+    height: 2.5rem;
+    border: 1px solid #cfcfcf;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 16px;
+    margin: 1rem auto;
+    display: block;
+    outline: none;
+}
+
+.box form input:focus {
+    border: 1px solid rgba(89, 176, 98, 0.402);
+    box-shadow: 0px 0px 2px 2px rgba(89, 176, 98, 0.402);
+}
+
+.forgot {
+    color: green;
+    text-align: center;
+    cursor: pointer;
+}
+
+.btns {
+    margin: 1rem;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+}
+
+.btns button {
+    width: 35%;
+    height: 35px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    margin-bottom: 3px;
+    background: green;
+    box-shadow: 1px 5px 5px 5px #c9c9c9;
+    cursor: pointer;
+}
+
+.btns button:active {
+    margin-top: 3px;
+    box-shadow: 0px 3px 4px 3px #c9c9c9;
+    margin-bottom: 0;
+}
+
+.error {
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+    background-color: rgb(222, 101, 77);
+    border-radius: 5px;
+    color: white;
+}
+
+.error button {
+    float: right;
+    width: 19px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+}

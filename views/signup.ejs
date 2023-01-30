@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+    </style>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <div class="main">
+        <div class="box">
+            <div class="head">
+                <% if(typeof err !='undefined' ){ %>
+                    <div class="error">
+                        <strong> Error </strong>
+                        <%= err %>.
+                            <button type="button" onclick="document.getElementsByClassName('error')[0].remove()"
+                                class="btn-close">x</button>
+                    </div>
+                    <% } %>
+                    <img src="img/logo.jpg" alt="logo">
+            </div>
+            <form action="/signup" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input placeholder="Email address" type="email" name="email" id="email">
+                <input placeholder="Name" type="text" name="username" id="username">
+                <input placeholder="Password" type="password" name="password" id="password">
+                <div class="foot">
+                    <div class="btns">
+                        <button>Sign Up</button>
+                        <button style="background-color: #1a73e8;">Log In</button>
+                    </div>
+                </div>
+            </form>
+            <hr>
+            <div class="btns">
+                <button disabled="disabled" style="background-color: #e8621a;"><a class="btn btn-lg btn-success"
+                        style="color: white;text-decoration: none;" href="/google">Google</a></button>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

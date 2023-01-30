@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+    </style>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <div class="main">
+        <div class="box">
+            <div class="head">
+                <% if( error !="" ){ %>
+                    <div class="error" role="alert">
+                        <strong> Error </strong>
+                        <%= error %>
+                            <button type="button" onclick="document.getElementsByClassName('error')[0].remove()"
+                                class="btn-close">x</button>
+                    </div>
+                    <% } %>
+                        <% if( error_messages !="" ){ %>
+                            <div class="error" role="alert">
+                                <strong> Error </strong>
+                                <%= error_messages %>
+                                    <button type="button" onclick="document.getElementsByClassName('error')[0].remove()"
+                                        class="btn-close">x</button>
+                            </div>
+                            <% } %>
+                                <img src="img/logo.jpg" alt="logo">
+            </div>
+            <form action="/login" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                <input placeholder="Email address" type="email" name="email" id="email">
+                <input placeholder="Password" type="password" name="password" id="password">
+                <div class="foot">
+                    <div class="forgot"><a style="color: rgb(92, 212, 88);text-decoration: none;" class="card-link"
+                            href="/user/forgot-password">Forgot Password?</a></div>
+                    <div class="btns">
+                        <button type="submit">Log In</button>
+                        <button disabled="disabled" style="background-color: #1a73e8;"><a
+                                style="color: white;text-decoration: none;" href="/signup">SignUp</a></button>
+                    </div>
+                </div>
+                <hr>
+                <div class="btns">
+                    <button disabled="disabled" style="background-color: #e8621a;"><a class="btn btn-lg btn-success"
+                            style="color: white;text-decoration: none;" href="/google">Google</a></button>
+                    <button disabled="disabled" style="background-color: #bfe81a;"><a class="btn btn-lg btn-success"
+                            style="color: white;text-decoration: none;" href="/facebook">Facebook</a></button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <header class="myheader">
+        <p>Take Notes With FUN</p>
+    </header>
+    <div class="mainContainer">
+        <div class="upper">
+            <div class="heading">
+                <p>Take Your Notes Here Watch Them AnyWhere</p>
+                <% if(!logged){ %>
+                <div class="btns">
+                    <button disabled="disabled"  type="submit"><a style="color: white;text-decoration: none;" href="/login">LogIn</button>
+                    <button disabled="disabled" style="background-color: #1a73e8;"><a style="color: white;text-decoration: none;" href="/signup">SignUp</button>
+                </div>
+                <% }else{ %>
+                    <div class="btns">
+                        <button disabled="disabled" type="submit"><a style="color: white;text-decoration: none;" href="/profile">Home</button>
+                        <button disabled="disabled" style="background-color: #1a73e8;"><a style="color: white;text-decoration: none;" href="/logout">Logout</button>
+                    </div>
+                <% } %>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
