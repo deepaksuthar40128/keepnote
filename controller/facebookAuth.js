@@ -3,8 +3,8 @@ const user = require('../model/user');
 
 module.exports = function (passport) {
     passport.use(new FacebookStrategy({
-        clientID: Process.env.FacebookclientId,
-        clientSecret: Process.env.FacebookclientSecreT,
+        clientID: process.env.FacebookclientId,
+        clientSecret: process.env.FacebookclientSecreT,
         callbackURL: "http://localhost/facebook/callback"
     }, (accessToken, refreshToken, profile, done) => {
         console.log(profile.emails[0].value);
