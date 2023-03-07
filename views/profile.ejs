@@ -6,12 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
     <header class="myheader">
         <p>Take Notes With FUN</p>
+        <div class="profile">
+            <img src="<%=userprofile%>" alt="">
+            <p>
+                <%=username%>
+            </p>
+            <img style="    position: relative; left: 52px;" onclick="window.location.replace('/logout')"
+                src="img/logout.jpg" alt="">
+        </div>
     </header>
     <% if(!verified){ %>
         <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
@@ -45,10 +55,6 @@
                                         <% } %>
                                             <div class="mainContainer">
                                                 <div class="upper">
-                                                    <div class="heading">
-                                                        <p>Welcome <%= username %>
-                                                        </p>
-                                                    </div>
                                                     <div class="myForm">
                                                         <form id="myform">
                                                             <input type="hidden" id="csrf" name="_csrf"
@@ -56,10 +62,13 @@
                                                             <input type="text" name="topic" id="topic"
                                                                 placeholder="Note Topic">
                                                             <div class="text-area" name="text" id="text"
-                                                                contenteditable="true">Wrtie something Here!</div>
+                                                                contenteditable="true">Write something Here!</div>
                                                         </form>
                                                         <div class="btns">
                                                             <button onclick="submitForm()" class="btn">Add Note</button>
+                                                            <button
+                                                                onclick="document.getElementById('text').innerHTML ='Write something Here!'"
+                                                                class="btn" style="background-color:red">Reset</button>
                                                             <label for="image"><svg
                                                                     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
                                                                     xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -159,31 +168,51 @@
                                                                     <img onclick="setBackGround(-1)"
                                                                         src="https://as1.ftcdn.net/v2/jpg/02/15/15/46/1000_F_215154625_hJg9QkfWH9Cu6LCTUc8TiuV6jQSI0C5X.jpg"
                                                                         alt="">
-                                                                    <label for="background-img"><img src="https://www.svgrepo.com/show/491889/upload-image.svg" alt=""></label>
-                                                                    <input type="file" name="background-img" id="background-img" hidden>
+                                                                    <label for="background-img"><img
+                                                                            src="https://www.svgrepo.com/show/491889/upload-image.svg"
+                                                                            alt=""></label>
+                                                                    <input type="file" name="background-img"
+                                                                        id="background-img" hidden>
                                                                 </div>
                                                             </span>
+                                                            <span><svg onclick="undo()"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 24 24">
+                                                                    <g data-name="Layer 2">
+                                                                        <path
+                                                                            d="M20.22 21a1 1 0 0 1-1-.76 8.91 8.91 0 0 0-7.8-6.69v1.12a1.78 1.78 0 0 1-1.09 1.64A2 2 0 0 1 8.18 16l-5.06-4.41a1.76 1.76 0 0 1 0-2.68l5.06-4.42a2 2 0 0 1 2.18-.3 1.78 1.78 0 0 1 1.09 1.64V7A10.89 10.89 0 0 1 21.5 17.75a10.29 10.29 0 0 1-.31 2.49 1 1 0 0 1-1 .76z"
+                                                                            data-name="undo" />
+                                                                    </g>
+                                                                </svg>
+                                                                <span><svg onclick="redo()"
+                                                                        style="transform: rotate3d(-35, 1278, 0, 170deg);"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        viewBox="0 0 24 24">
+                                                                        <g data-name="Layer 2">
+                                                                            <path
+                                                                                d="M20.22 21a1 1 0 0 1-1-.76 8.91 8.91 0 0 0-7.8-6.69v1.12a1.78 1.78 0 0 1-1.09 1.64A2 2 0 0 1 8.18 16l-5.06-4.41a1.76 1.76 0 0 1 0-2.68l5.06-4.42a2 2 0 0 1 2.18-.3 1.78 1.78 0 0 1 1.09 1.64V7A10.89 10.89 0 0 1 21.5 17.75a10.29 10.29 0 0 1-.31 2.49 1 1 0 0 1-1 .76z"
+                                                                                data-name="undo" />
+                                                                        </g>
+                                                                    </svg>
+                                                                </span>
                                                         </div>
 
                                                     </div>
-                                                </div>
-                                                <div class="middle">
-                                                    <hr class="lines">
-                                                    <p>Your Notes</p>
-                                                    <hr class="lines">
                                                 </div>
                                                 <div class="tools">
                                                     <div class="item">
                                                         <label for="car">Sort By Date</label>
                                                         <select name="myCar" id="car">
-                                                            <option value="ind">Incresing</option>
-                                                            <option value="swf" selected>Decresing</option>
+                                                            <option value="-1">Incresing</option>
+                                                            <option value="1" selected>Decresing</option>
                                                         </select>
                                                     </div>
-                                                    <div class="item">
-                                                        Show First: Completed <input type="radio" name="myGender"
-                                                            checked> Remaining <input type="radio" name="myGender">
+                                                    <div class="item" id="filter-status">
+                                                        All <input type="radio" value="2" name="myGender" checked>
+                                                        Completed <input type="radio" value="1" name="myGender" >
+                                                        Remaining <input type="radio" value="0" name="myGender">
                                                     </div>
+
                                                     <div class="item">
                                                         <label for="car">Show till</label>
                                                         <select name="myCar" id="car">
@@ -195,48 +224,29 @@
                                                     </div>
 
                                                 </div>
+                                                <div class="loading">
+
+                                                </div>
                                                 <div class="notes">
-                                                    <div class="note">
-                                                        <p class="noteTop">Note1</p>
-                                                        <div class="noteContent">
-                                                            hello There My name is Deepak Suthar
-                                                        </div>
-                                                        <button class="btn noteRemove">Delete Note</button>
-                                                    </div>
-                                                    <div class="note">
-                                                        <p class="noteTop">Note1</p>
-                                                        <div class="noteContent">
-                                                            hello There My name is Deepak Suthar
-                                                        </div>
-                                                        <button class="btn noteRemove">Delete Note</button>
-                                                    </div>
-                                                    <div class="note">
-                                                        <p class="noteTop">Note1</p>
-                                                        <div class="noteContent">
-                                                            hello There My name is Deepak Suthar
-                                                        </div>
-                                                        <button class="btn noteRemove">Delete Note</button>
-                                                    </div>
-                                                    <div class="note">
-                                                        <p class="noteTop">Note1</p>
-                                                        <div class="noteContent">
-                                                            hello There My name is Deepak Suthar
-                                                        </div>
-                                                        <button class="btn noteRemove">Delete Note</button>
-                                                    </div>
-                                                    <div class="note">
-                                                        <p class="noteTop">Note1</p>
-                                                        <div class="noteContent">
-                                                            hello There My name is Deepak Suthar
-                                                        </div>
-                                                        <button class="btn noteRemove">Delete Note</button>
-                                                    </div>
                                                 </div>
                                             </div>
                                             <footer id="justone">
 
                                             </footer>
+                                            <div class="popup">
+                                                <button id="popup-btn">Open Popup</button>
+
+                                                <div id="popup-overlay">
+                                                    <div id="popup">
+                                                        <h2>Popup Title</h2>
+                                                        <div class="main-popup">Popup content goes here...</div>
+                                                        <button id="close-btn">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <script src="js/index.js"></script>
+                                            <script src="js/index2.js"></script>
 </body>
 
 </html>

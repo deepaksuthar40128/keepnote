@@ -7,7 +7,6 @@ module.exports = function (passport) {
         clientSecret: process.env.GoogleclientSecret,
         callbackURL: "http://localhost/google/callback"
     }, (accessToken, refreshToken, profile, done) => {
-        console.log(profile.emails[0].value);
         user.findOne({ email: profile.emails[0].value }).then((data) => {
             if (data) {
                 return done(null, data);
@@ -18,6 +17,7 @@ module.exports = function (passport) {
                     email: profile.emails[0].value,
                     facebookId: null,
                     googleId: profile.id,
+                    profile: profile.photos[0].value,
                     password: null,
                     provider: 'google',
                     isVerified: true,
@@ -27,7 +27,7 @@ module.exports = function (passport) {
             }
         })
     }
-    ));
+));
 
 
     passport.serializeUser(function (user, done) {

@@ -4,6 +4,7 @@ const passport = require('passport');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const flash = require('connect-flash');
+const bodyParser = require('body-parser');
 const MemoryStore = require('memorystore')(expressSession)
 const mongoose = require('mongoose');
 const app = express();
@@ -20,7 +21,8 @@ mongoose.connect(
       }
 )
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }))
 
 
 app.use(cookieParser('random'));

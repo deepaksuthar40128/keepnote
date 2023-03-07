@@ -11,9 +11,15 @@ const notes = new mongoose.Schema({
     note: {
         type: String,
     },
-    tages: [{
-        type: String
-    }],
+    isCompleted: {
+        type: Boolean,
+    },
+    // tages: [{
+    //     type: String,
+    // }],
+    // sentiment: {
+    //     type: String,
+    // }
 }, { timestamps: true }
 );
 

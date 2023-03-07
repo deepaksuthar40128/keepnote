@@ -75,7 +75,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/profile', checkAuth, (req, res) => {
-    res.render('profile', { username: req.user.username, verified: req.user.isVerified, csrfToken: req.csrfToken() });
+    res.render('profile', { username: req.user.username, userprofile: req.user.profile, verified: req.user.isVerified, csrfToken: req.csrfToken() });
 })
 
 app.get('/google', passport.authenticate('google', { scope: ['profile', 'email',] }));
