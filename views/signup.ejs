@@ -24,13 +24,15 @@
                                 class="btn-close">x</button>
                     </div>
                     <% } %>
-                    <img src="img/logo.jpg" alt="logo">
+                        <label for="profile"><img src="img/logo.jpg" id="user-image" alt="logo"></label>
+                        <input hidden type="file" name="profile" id="profile" accept="image/*">
             </div>
-            <form action="/signup" method="POST">
+            <form action="/signup" method="POST" id="myform">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <input placeholder="Email address" type="email" name="email" id="email">
                 <input placeholder="Name" type="text" name="username" id="username">
                 <input placeholder="Password" type="password" name="password" id="password">
+                <input type="hidden" name="profile_link" id="profile_link" value="img/logo.jpg" >
                 <div class="foot">
                     <div class="btns">
                         <button>Sign Up</button>
@@ -45,6 +47,38 @@
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('profile').addEventListener('change', async () => {
+            image = document.getElementById('profile').files[0];
+            console.log(image);
+            data = await upload_image(image);
+            console.log(data);
+            document.getElementById('user-image').src = data.link;
+            document.getElementById('profile_link').value = data.link;
+        })
+        function upload_image(image) {
+            return new Promise((resolve, reject) => {
+                var formData = new FormData();
+                formData.append('image', image);
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '/save-img', true);
+                xhr.setRequestHeader('X-CSRF-TOKEN', document.getElementById('myform').children[0].value);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.response);
+                        console.log(response.link);
+                        console.log('Image successfully uploaded.');
+                        return resolve({ link: response.link });
+                    } else {
+                        console.error('An error occurred while uploading the image.');
+                        return reject();
+                    }
+                };
+                xhr.send(formData);
+            })
+        }
+
+    </script>
 </body>
 
 </html>

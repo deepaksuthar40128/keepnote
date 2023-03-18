@@ -4,7 +4,10 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const Notes = require('../model/notes');
 const Users = require('../model/user');
+const Remainder = require('../model/remainder');
 const timeago = require('timeago.js');
+const mailer = require('./sendMail');
+const schedule = require('node-schedule');
 
 function checkAuth(req, res, next) {
     if (req.isAuthenticated()) {
@@ -50,7 +53,7 @@ var sentiment = new Sentiment();
 
 
 app.post('/saveNote', async (req, res) => {
-    var result = sentiment.analyze(req.body.note);
+    var result = sentiment.analyze(req.body.topic);
     console.log(result);
     data = new Notes({
         email: req.user.email,
@@ -153,5 +156,66 @@ app.get('/delete/:id', checkAuth, async (req, res) => {
     }
 });
 
+app.get('/remainder/:id', checkAuth, async (req, res) => {
+    const noteId = req.params.id;
+    const reminderDate = parseInt(req.query.time);
+
+    const reminder = new Remainder({
+        noteId: noteId,
+        time: reminderDate,
+        action: 'email'
+    });
+    await reminder.save();
+    schedule.scheduleJob(reminderDate, async () => {
+        const note = await Notes.findById(noteId);
+        await Remainder.deleteOne({ _id: reminder._id });
+        note_data = await create_note(note.note, noteId);
+        mailer.sendReminderEmail(note.email, note_data);
+    });
+
+    res.send(reminder);
+});
+
+async function create_note(text, noteId) {
+    return new Promise((Resolve, Reject) => {
+        data = `<div >
+<div style="margin:20px">
+${text}
+<div style='display: flex;
+    flex-wrap: wrap;'>
+
+<a style="text-decoration:none;border:1px solid black;padding:5px;color:black;margin:5px;cursor:pointer;border-radius:5px;" href='http://localhost/mark/complete/${noteId}'>Mark as Completed</a>
+<a style="text-decoration:none;border:1px solid black;padding:5px;color:black;margin:5px;cursor:pointer;border-radius:5px;" href='http://localhost/'>View Notes</a>
+<a style="text-decoration:none;border:1px solid black;padding:5px;color:black;margin:5px;cursor:pointer;border-radius:5px;" href='http://localhost/'>Delete Note</a>
+<a style="text-decoration:none;border:1px solid black;padding:5px;color:black;margin:5px;cursor:pointer;border-radius:5px;" href='http://localhost/'>Schedule for 10 days</a>
+</div>
+</div>`
+        return Resolve(data);
+    })
+}
+
+
+app.get('/userProfile', checkAuth, async (req, res) => {
+    const email = req.user.email;
+    console.log(req.user)
+    const totalNotes = await Notes.countDocuments({ email: email });
+    const data = {
+        ...req.user.toObject(),
+        count: totalNotes,
+    };
+    console.log(data);
+    res.send(data);
+});
+
+app.get('/mark/complete/:id', async (req, res) => {
+    await Notes.findByIdAndUpdate(req.params.id, { isCompleted: true });
+    res.send("updated");
+})
+
+app.get('/delete_user', async (req, res) => {
+    await Notes.deleteMany({ email: req.user.email });
+    await Users.deleteOne({ email: req.user.email });
+    res.redirect('/logout');
+})
 
 module.exports = app;

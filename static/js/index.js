@@ -41,7 +41,11 @@ function submitForm() {
     updateURLs(form).then(() => {
         console.log("updated");
         topic = form.children[1].value;
+        form.children[2].setAttribute('contenteditable', 'false');
+        form.children[2].style.resize = 'none';
         note = form.children[2].outerHTML.toString();
+        form.children[2].style.resize = 'both';
+        form.children[2].setAttribute('contenteditable', 'true');
         var data = {};
         data["note"] = note;
         data["topic"] = topic;
@@ -150,16 +154,19 @@ async function btnHandler(noteId, action) {
 
         datetimeInput.addEventListener('change', function () {
             const selectedDatetime = new Date(datetimeInput.value) - 1;
-            console.log(selectedDatetime);
+            // console.log(selectedDatetime);
             dddd = new Date() - 1;
             dddd += 84600;
-            console.log(dddd);
+            // console.log(dddd);
             if (selectedDatetime < dddd) {
                 alert("select atleast one hour ")
                 datetimeInput.value = '';
                 datetimeInput.setCustomValidity('You cannot select past date and time.');
             } else {
                 datetimeInput.setCustomValidity('');
+                popup.children[3].style.display = 'inline';
+                popup.children[3].setAttribute('onclick', `setRemainder('${selectedDatetime}','${noteId}')`);
+                // console.log(selectedDatetime);
             }
         });
     }
@@ -242,6 +249,22 @@ function delete_note(noteId) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             alert(xhr.response);
+        }
+    };
+    xhr.send();
+}
+
+function setRemainder(time, noteId) {
+    popup.children[1].innerHTML = '<div class = "loading"><img src="https://cdn-icons-png.flaticon.com/512/64/64708.png" alt=""></div>'
+    xhr = new XMLHttpRequest();
+    xhr.open('GET', `/remainder/${noteId}?time=${time}`, true);
+    xhr.setRequestHeader('X-CSRF-TOKEN', document.getElementById('myform').children[0].value);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var response = JSON.parse(xhr.response);
+            console.log(response);
+            popupOverlay.style.display = 'none';
+            alert("Remainder Set You will Be notified On Time");
         }
     };
     xhr.send();

@@ -18,35 +18,35 @@ function checkAuth(req, res, next) {
     }
 }
 
-app.get('/user/send-verification-email', checkAuth, async (req, res) => {
+app.get('/send-verification-email', checkAuth, async (req, res) => {
     if (req.user.isVerified || req.user.provider == 'google') {
-        res.redirect('/profile');
+        res.redirect('/profile?mode=day');
     }
     else {
         var token = crypto.randomBytes(32).toString('hex');
         await resetTokens({ token: token, email: req.user.email }).save();
         mailer.sendVerifyEmail(req.user.email, token);
-        res.render('profile', { username: req.user.username, verified: req.user.isVerified, emailsent: true });
+        res.render('profile2', { userprofile: req.user.profile, username: req.user.username, verified: req.user.isVerified, csrfToken: req.csrfToken(), emailsent: true });
     }
 })
 
-app.get('/user/verifyemail', async (req, res) => {
+app.get('/verifyemail', async (req, res) => {
     const token = req.query.token;
     if (token) {
-        var check = await resetToken.findOne({ token: token });
+        var check = await resetTokens.findOne({ token: token });
         if (check) {
             var userData = await user.findOne({ email: check.email });
             userData.isVerified = true;
             await userData.save();
-            await resetToken.findOneAndDelete({ token: token });
+            await resetTokens.findOneAndDelete({ token: token });
             res.redirect('/profile');
         }
         else {
-            res.render('profile', { username: req.user.username, verified: req.user.isVerified, err: "Invalid token or Token has expired, Try again." });
+            res.render('profile2', { userprofile: req.user.profile, username: req.user.username, verified: req.user.isVerified, csrfToken: req.csrfToken(), err: "Invalid token or Token has expired, Try again." });
         }
     }
     else {
-        res.redirect('/profile');
+        res.redirect('/profile?mode=day');
     }
 })
 
@@ -76,24 +76,24 @@ app.post('/user/forgot-password', async (req, res) => {
 })
 
 app.get('/user/reset-password', async (req, res) => {
-    
+
     const token = req.query.token;
     if (token) {
         var check = await resetTokens.findOne({ token: token });
         if (check) {
-              res.render('forgot-password.ejs', { csrfToken: req.csrfToken(), reset: true, email: check.email });
+            res.render('forgot-password.ejs', { csrfToken: req.csrfToken(), reset: true, email: check.email });
         } else {
             res.render('forgot-password.ejs', { csrfToken: req.csrfToken(), msg: "Token Tampered or Expired.", type: 'danger' });
         }
     } else {
-          res.redirect('/login');
+        res.redirect('/login');
     }
 
-}); 
+});
 
 
 app.post('/user/reset-password', async (req, res) => {
-     const { password, password2, email } = req.body;
+    const { password, password2, email } = req.body;
     console.log(password);
     console.log(password2);
     if (!password || !password2 || (password2 != password)) {

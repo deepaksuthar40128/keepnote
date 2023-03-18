@@ -11,7 +11,7 @@
       display: none;
 } */
 body {
-      background-image: url('../img/show3.jpg');
+      background-image: url('../img/bg.jpg');
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -20,7 +20,7 @@ body {
 
 .myheader {
       width: 100%;
-      /* height: 84px; */
+      height: 84px;
       background-color: #00000061;
       color: white;
       font-size: 29px;
@@ -28,6 +28,7 @@ body {
       position: sticky;
       display: flex;
       top: 0;
+      z-index: 5;
       align-items: center;
       justify-content: space-between;
 }
@@ -59,6 +60,8 @@ body {
       /* height: 300px; */
       border-radius: 5px;
       margin: auto;
+      position: relative;
+      z-index: 1;
       background-color: #00000061;
 }
 
@@ -105,7 +108,7 @@ body {
       background: transparent !important;
 }
 
-#topic {
+.small-input {
       min-width: 14rem;
       font-size: 14px;
       border: none;
@@ -146,12 +149,15 @@ body {
 .notes,
 .tools,
 .loading {
+      position: relative;
+      z-index: 2;
       margin: auto;
       margin-top: 20px;
       width: 40%;
       min-width: 40rem;
       /* border: 1px solid black; */
       border-radius: 5px;
+      box-shadow: 0px 0px 5px 2px grey;
       padding: 10px;
       background-color: #00000061;
 }
@@ -196,6 +202,10 @@ body {
 
 body svg {
       height: 30px;
+      margin-left: 19px;
+      position: relative;
+      /* margin-top: 20px; */
+      top: 10px;
 }
 
 
@@ -203,8 +213,8 @@ body svg {
       display: none;
       position: absolute;
       /* top: -34px; */
-      margin-top: 48px;
-      margin-left: -22px;
+      margin-top: 58px;
+      margin-left: -82px;
       /* left: 300px; */
       border: 1px solid black;
       /* padding: 5px; */
@@ -280,7 +290,7 @@ body svg {
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
       display: none;
-      z-index: 1;
+      z-index: 5;
 }
 
 #popup {
@@ -300,7 +310,8 @@ body svg {
       margin: 8px;
 }
 
-#close-btn {
+#close-btn,
+#Submit-btn {
       margin-top: 10px;
       padding: 5px 15px;
       border: none;
@@ -347,4 +358,229 @@ input[type="datetime-local"] {
 
 .tools {
       color: white;
+}
+
+
+.action {
+      position: fixed;
+      top: 14px;
+      right: 30px;
+}
+
+.action .profile {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      cursor: pointer;
+}
+
+.action .profile img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+}
+
+.action .menu2 {
+      position: absolute;
+      top: 120px;
+      right: 34px;
+      padding: 10px 20px;
+      background: #00000030;
+      width: 15rem;
+      font-size: 15px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      transition: 0.5s;
+      visibility: hidden;
+      opacity: 0;
+}
+
+.action .menu2.active {
+      top: 80px;
+      visibility: visible;
+      opacity: 1;
+}
+
+.action .menu2::before {
+      content: "";
+      position: absolute;
+      top: -5px;
+      right: 28px;
+      width: 20px;
+      height: 20px;
+      background: #162943;
+      ;
+      transform: rotate(45deg);
+}
+
+.action .menu2 h3 {
+      width: 100%;
+      text-align: center;
+      font-size: 18px;
+      padding: 20px 0;
+      font-weight: 500;
+      color: #000000;
+      line-height: 1.5em;
+}
+
+.action .menu2 h3 span {
+      font-size: 14px;
+      color: #545454;
+      font-weight: 300;
+}
+
+.action .menu2 ul li {
+      list-style: none;
+      padding: 16px 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+}
+
+.action .menu2 ul li img {
+      max-width: 20px;
+      margin-right: 10px;
+      /* opacity: 0.5; */
+      transition: 0.5s;
+}
+
+.action .menu2 ul li:hover img {
+      opacity: 1;
+}
+
+.action .menu2 ul li a {
+      display: inline-block;
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      transition: 0.5s;
+}
+
+.action .menu2 ul li:hover a {
+      color: #ff5d94;
+}
+
+.user-profile-card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+      z-index: 9999;
+      max-width: 400px;
+}
+
+.user-profile-card img {
+      width: 100%;
+      max-width: 200px;
+      height: auto;
+      max-height: 200px;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+      border-radius: 50%;
+}
+
+.user-profile-card h2 {
+      margin-top: 20px;
+      text-align: center;
+}
+
+.user-profile-card p {
+      margin-top: 10px;
+      text-align: center;
+}
+
+.delete-account-btn,
+.logout-btn {
+      display: block;
+      margin: 20px auto 0;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background-color: #f44336;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+}
+
+.delete-account-btn:hover,
+.logout-btn:hover {
+      background-color: #d32f2f;
+}
+
+.particles-js-canvas-el {
+      position: fixed;
+      top: 0;
+}
+
+#dark-img {
+      position: fixed;
+      left: 47px;
+      bottom: 0;
+      filter: hue-rotate(280deg);
+      width: 120%;
+      animation: mover 20s linear infinite;
+}
+
+@keyframes mover {
+      0% {
+            left: -20%;
+      }
+
+      50% {
+            left: 0%;
+      }
+
+      100% {
+            left: -20%;
+      }
+}
+
+body {
+      background-color: #000;
+}
+
+.stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+}
+
+.stars:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: #fff;
+      animation: shooting-stars 10s linear infinite;
+}
+
+@keyframes shooting-stars {
+      from {
+            transform: translate3d(0, 0, 0);
+      }
+
+      to {
+            transform: translate3d(100vw, 100vh, 0);
+      }
+}
+
+.night-mode {
+      filter: invert(1);
+}
+
+.night-menu {
+      /* color: white !important;
+       */
+      filter: invert(1);
 }

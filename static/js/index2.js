@@ -4,7 +4,7 @@ var start_index = 0;
 window.onload = intital();
 async function intital() {
     flag = false;
-    document.getElementsByClassName('loading')[0].innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/64/64708.png" alt=""><p id="note-loaded"></p><button onclick="stopxhr(${order},${show_status})">Stop</button>`
+    document.getElementsByClassName('loading')[0].innerHTML = `<img class="night-mode" src="https://cdn-icons-png.flaticon.com/512/64/64708.png" alt=""><p class="night-mode" id="note-loaded"></p><button onclick="stopxhr(${order},${show_status})">Stop</button>`
     allids = await allNotes();
     console.log(start_index);
     for (let i = start_index; i < allids.length; i++) {
@@ -18,7 +18,8 @@ async function intital() {
         document.getElementById('note-loaded').innerHTML = `${i + 1}/${allids.length}`;
         document.getElementsByClassName("notes")[0].appendChild(newnote);
     }
-    document.getElementsByClassName('loading')[0].innerHTML = `<button class='btn' onclick="intital(${order},${status})">Refresh</button>`;
+    if (allids.length == 0) document.getElementsByClassName("notes")[0].innerHTML = 'Nothing To Show!'
+    document.getElementsByClassName('loading')[0].innerHTML = `<button class='btn' onclick="intital(${order},${show_status})">Refresh</button>`;
 }
 
 
@@ -111,3 +112,22 @@ radioButtons.forEach(function (radioButton) {
         intital();
     });
 });
+
+
+function show_profile() {
+    popup.children[0].innerHTML = 'Welcome'
+    popup.children[1].innerHTML = '<div class = "loading"><img src="https://cdn-icons-png.flaticon.com/512/64/64708.png" alt=""></div>'
+    popupOverlay.style.display = 'block';
+    fetch("http://localhost/userProfile")
+        .then((response) => response.json())
+        .then((data) =>{
+    popup.children[1].innerHTML = `<div class="user-profile-card">
+  <img src="${data.profile}" alt="User Profile Image">
+  <h2>${data.username}</h2>
+  <p>Email: ${data.email}</p>
+  <p>Total Notes Saved: ${data.count}</p>
+  <p>Joined On: ${data._id}</p>
+  <button onclick="window.location.replace('/delete_user')" class="delete-account-btn">Delete Account</button>
+  <button onclick="window.location.replace('/logout')" class="logout-btn">Logout</button>
+</div>`});
+}

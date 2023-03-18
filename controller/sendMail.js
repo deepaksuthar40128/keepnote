@@ -23,7 +23,7 @@ module.exports.sendResetEmail = async (email, token) => {
 
 module.exports.sendVerifyEmail = async (email, token) => {
     // change first part to your domain
-    var url = "http://localhost/user/verifyemail?token=" + token;
+    var url = "http://localhost/verifyemail?token=" + token;
 
     await smtpTransport.sendMail({
         from: "Take Notes",
@@ -33,3 +33,13 @@ module.exports.sendVerifyEmail = async (email, token) => {
         html: `<h3> Click on this link to verify your email : ${url} </h3>`,
     });
 };
+
+module.exports.sendReminderEmail = async (email, text) => {
+    await smtpTransport.sendMail({
+        from: "Take Notes",
+        to: email,
+        subject: "Remainder For Note",
+        text: `Check Your Note`,
+        html: text,
+    });
+}

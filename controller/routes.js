@@ -55,6 +55,7 @@ app.post('/signup', async (req, res) => {
                     username: req.body.username,
                     email: req.body.email,
                     password: hash,
+                    profile: req.body.profile_link,
                     facebookId: null,
                     googleId: null,
                     provider: 'email',
@@ -75,7 +76,13 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/profile', checkAuth, (req, res) => {
-    res.render('profile', { username: req.user.username, userprofile: req.user.profile, verified: req.user.isVerified, csrfToken: req.csrfToken() });
+    mode = req.query.mode;
+    if (mode == 'day') {
+        res.render('profile2', { username: req.user.username, userprofile: req.user.profile, verified: req.user.isVerified, csrfToken: req.csrfToken() });
+    }
+    else {
+        res.render('profile', { username: req.user.username, userprofile: req.user.profile, verified: req.user.isVerified, csrfToken: req.csrfToken() });
+    }
 })
 
 app.get('/google', passport.authenticate('google', { scope: ['profile', 'email',] }));
@@ -83,10 +90,13 @@ app.get('/google', passport.authenticate('google', { scope: ['profile', 'email',
 app.get('/facebook', passport.authenticate('facebook', { scope: ['user_friends', 'manage_pages'] }));
 
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect('/profile');
+    res.redirect('/profile?mode=day');
 })
 app.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect('/profile');
+    res.redirect('/profile?mode=day');
+})
+app.get('/help', (req, res) => {
+    res.render('help');
 })
 
 app.use(userRoutes);

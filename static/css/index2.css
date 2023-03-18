@@ -1,0 +1,13 @@
+body {
+    background-image: url('../img/show3.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.night-mode{
+    filter: invert(0);
+}
+.action .menu2::before{
+    background-color: #cfcfcf;
+}
