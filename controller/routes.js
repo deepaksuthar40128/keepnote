@@ -90,7 +90,7 @@ app.get('/google', passport.authenticate('google', { scope: ['profile', 'email',
 app.get('/facebook', passport.authenticate('facebook', { scope: ['user_friends', 'manage_pages'] }));
 
 app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/login' }), (req, res) => {
-    res.redirect('/profile?mode=day');
+    res.redirect('/profile?mode=night');
 })
 app.get('/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
     res.redirect('/profile?mode=day');
